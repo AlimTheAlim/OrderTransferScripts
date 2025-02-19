@@ -91,6 +91,7 @@ def webInteractor():
     submitPanel = driver.find_element(By.ID, 'submitOrder')
     submitPanel.click()
     
+    k = 0
     for index, item in enumerate(order.get_cut_list(), start=1):  # start=1 to match ID numbering starting from 1
     # Dynamically find the fields based on the index
       amount_input = driver.find_element(By.ID, f'txtQty{index}')
@@ -111,6 +112,23 @@ def webInteractor():
       length_in_input.clear()
       length_in_input.send_keys(item['Inch Length'])
       length_in_input.send_keys(Keys.RETURN)
+      k += 1
+      remove_buttons = driver.find_elements(By.XPATH, '//a[contains(@href, "create_panel_list.php?Remove=")]')
+
+    # Define which k-th button you want to interact with
+    k = 3  # For example, interact with the 3rd button (zero-based index)
+
+    # Make sure k is a valid index
+    if 0 <= k < len(remove_buttons):
+        # Click on the k-th button
+        remove_buttons[k].click()
+    else:
+        print(f"Invalid index: {k}")
+    OrderFinish = driver.find_element(By.ID, 'btnSubmit')
+    OrderFinish.click()
+    
+    Confirm = driver.find_element(By.CSS_SELECTOR, 'input[name="Submit"][value="Confirm Order"]')
+    Confirm.click()
     print(driver.title)  # Print the title of the webpage
       # Close the browser after use
-webInteractor()
+      
