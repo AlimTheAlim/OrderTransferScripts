@@ -124,7 +124,7 @@ alpha_func = converter()
 print("\n", "\n--------------------------------\n", alpha_func.get_project_name(),"\n",
       alpha_func.get_panel_profile(),"\n",alpha_func.get_gauge(),"\n", 
       alpha_func.get_material_color(),"\n",alpha_func.get_roof_specs())
-
+asd
 # Iterate through the cut list and print the details
 for i in alpha_func.get_cut_list():
     print(i, "\n")
