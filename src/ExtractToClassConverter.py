@@ -4,7 +4,7 @@ import PdfReader
 from libraries import gauges, vendors, panel_profiles, colors  # Import predefined data for matching
 
 # Instantiate the OrderExtractor object to read order data from a PDF
-Order = PdfReader.OrderExtractor()
+
 
 # Helper function to search for a matching string from a list of items
 def find_match(data_list, search_str):
@@ -18,26 +18,58 @@ def find_match(data_list, search_str):
 
 # Converter function to parse the order data and create a Project object
 def converter():
-    try:
+    Order = PdfReader.OrderExtractor()
         # Use regular expressions to extract project-related details from the PDF order data
+    try:
         name = re.search(r'Project\s+Address:\s+(.*?)\s+(?:Project\s+Name|Customer\s+Name)', Order).group(1)
+    except:
+        
+        name = "default name"
+        
+        
+    try:
         panel_profile = re.search(r'Roofing\s+System:\s+(.*?)\s*(?=\n|$)', Order).group(1)
+    except:
+        panel_profile = "System 1500"
+        
+        
+    try:
         material = re.search(r'Metal\s+Type\s+&\s+Color:\s+([^R]+?)\s+Roof\s+Panel\s+Specifics:', Order).group(1)
+    except:
+        vendor = "Sheffield"
+        color = "Slate Gray"
+        gauge = ".032 Alum."
+        
+        
+    try:
         roof_specs = re.search(r'Roof\s+Panel\s+Specifics:\s+([^R]+?)\s*(?=\n|$)', Order).group(1)
 
-        # Clean and format the extracted strings (e.g., removing unwanted characters or excess spaces)
+            # Clean and format the extracted strings (e.g., removing unwanted characters or excess spaces)
+    except:
+        roof_specs = '16" Smooth'
+        
+    try:
         material = re.sub(r'\s+', ' ', material.replace('\u00A0', ' ').strip())
-        # Match panel profile with predefined systems (from libraries) based on the extracted material
-        panel_profile = next((system[0] for system in panel_profiles.panel_systems if any(system_type.lower() in panel_profile.lower() for system_type in system)), panel_profile)
+            # Match panel profile with predefined systems (from libraries) based on the extracted material
+    except:
+        vendor = "Sheffield"
+        color = "Slate Gray"
+        gauge = ".032 Alum."
+        
+        
+    try:
+        panel_profile = next((system[0] for system in panel_profiles.panel_systems if any(system_type.lower() in panel_profile.lower() for system_type in system)), panel_profile)    
         # Use find_match helper function to find matching vendor, gauge, and color from predefined lists
         vendor = find_match(vendors.vendors, material)
         gauge = find_match(gauges.gauges, material)
         color = find_match(colors.colors, material)
-
-    except (AttributeError, IndexError) as e:
-        # In case of an error (e.g., no match found), use default values for the project attributes
-        print(f"Error: {e}, setting default values.")
-        name, panel_profile, vendor, gauge, color, roof_specs = ("default name", "System 1000", "Sheffield", "24 ga", "Regal White", '16" Smooth')
+    except:
+        vendor = "Sheffield"
+        color = "Slate Gray"
+        gauge = ".032 Alum."
+        
+        
+    
 
     # Regex pattern for extracting cut list details, like panel lengths and quantities
     pattern = r"(\d{1,3}'\d{1,2}\")\s+(\d+)\s+([\d.]+)\s+(\d{1,4}'\d{1,2}\")\s+([\d.]+)"

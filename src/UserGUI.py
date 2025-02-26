@@ -1,8 +1,8 @@
 import os
 import shutil
+from PyPDF2 import PdfReader
 import tkinter as tk
-from tkinter import filedialog
-from tkinter import messagebox
+from tkinter import filedialog, messagebox
 from WebIntefaceInteract import webInteractor
 
 # Function to clear the contents of the temp directory
@@ -20,6 +20,9 @@ def clear_temp_directory():
                 print(f"Error while deleting file {file_path}: {e}")
     else:
         os.makedirs(temp_dir)  # Create the temp directory if it doesn't exist
+
+# OrderExtractor function that reads the PDF in the temp folder
+
 
 # Function to open file dialog and get file path
 def browse_file():
@@ -40,16 +43,31 @@ def submit_file():
             # Move the file to ../temp
             shutil.copy(file_path, temp_dir)
             messagebox.showinfo("File Uploaded", f"File '{file_path}' uploaded successfully to '../temp'.")
+            
+            # Verify the file in the temp directory
+            temp_file_path = os.path.join(temp_dir, os.path.basename(file_path))
+            print(f"File uploaded: {temp_file_path}")
+            
+            # Ensure the file exists in the temp folder
+            if os.path.exists(temp_file_path):
+                # Call webInteractor (assuming it's responsible for processing)
+                print(f"File is ready for processing: {temp_file_path}")
+                  # Pass the correct file path to webInteractor
+                
+
+            else:
+                messagebox.showerror("Error", "File upload failed. Please try again.")
+                
         except Exception as e:
             messagebox.showerror("Error", f"Error while uploading file: {e}")
             return
-        
-        # Call the webinteractor() function
-        webInteractor()
     else:
         messagebox.showwarning("No File", "Please select a file first.")
+        
+def enter_order():
+    webInteractor()
+    return
 
-# Sample webinteractor function (replace with your own logic)
 # Create main Tkinter window
 root = tk.Tk()
 root.title("File Upload Interface")
@@ -68,6 +86,9 @@ browse_button.pack(pady=5)
 # Submit button to submit the file
 submit_button = tk.Button(root, text="Submit", command=submit_file)
 submit_button.pack(pady=20)
+
+enter_order = tk.Button(root, text="Enter Order", command=enter_order)
+enter_order.pack(pady=20)
 
 # Run the Tkinter event loop
 root.mainloop()

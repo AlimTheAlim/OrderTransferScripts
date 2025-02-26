@@ -8,7 +8,7 @@ from selenium.webdriver.support.ui import Select
 
 def webInteractor():
     order = converter()  
-    edge_path = 'repos\\FFAutoOrder\\msedgedriver.exe'  
+    edge_path = 'C:\source\\repos\\FFAutoOrder\\msedgedriver.exe'  
     
     
     service = Service(edge_path)
@@ -22,8 +22,8 @@ def webInteractor():
     driver.get('https://metalroofingsystems.biz/OIS/index.php')
     username = driver.find_element(By.ID, 'txtUsername')  
     password = driver.find_element(By.ID, 'txtPassword')  
-    username.send_keys('')
-    password.send_keys('')
+    username.send_keys('aaminev')
+    password.send_keys('AA83333')
     password.send_keys(Keys.RETURN)
     
     
