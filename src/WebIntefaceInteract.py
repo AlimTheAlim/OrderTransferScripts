@@ -22,8 +22,8 @@ def webInteractor():
     driver.get('https://metalroofingsystems.biz/OIS/index.php')
     username = driver.find_element(By.ID, 'txtUsername')  
     password = driver.find_element(By.ID, 'txtPassword')  
-    username.send_keys('aaminev')
-    password.send_keys('AA83333')
+    username.send_keys('')
+    password.send_keys('')
     password.send_keys(Keys.RETURN)
     
     

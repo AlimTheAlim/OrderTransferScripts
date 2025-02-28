@@ -1,5 +1,5 @@
 import re
-from ProjectClass import Project  # Importing the Project class to use later
+from ProjectClass import Project  # Importing the Project class
 import PdfReader  
 from libraries import gauges, vendors, panel_profiles, colors  # Import predefined data for matching
 
