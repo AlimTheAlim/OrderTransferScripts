@@ -18,5 +18,6 @@ setup(
     version="1.0",
     description="Process Flores And Foley Orders into OIS",
     options={"build_exe": build_options},
-    executables=executables
+    executables=executables,
+    license = "MIT"
 )
