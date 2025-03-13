@@ -115,9 +115,7 @@ def webInteractor():
       k += 1
       remove_buttons = driver.find_elements(By.XPATH, '//a[contains(@href, "create_panel_list.php?Remove=")]')
 
-    # Define which k-th button you want to interact with
-    k = 3  # For example, interact with the 3rd button (zero-based index)
-
+   
     # Make sure k is a valid index
     if 0 <= k < len(remove_buttons):
         # Click on the k-th button
